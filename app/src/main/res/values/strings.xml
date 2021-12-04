@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MovieBox</string>
+    <string name="generic_error_message">We are currently unable to process your transaction.</string>
+</resources>
