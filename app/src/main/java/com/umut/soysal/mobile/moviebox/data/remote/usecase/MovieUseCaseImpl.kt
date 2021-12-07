@@ -7,7 +7,7 @@ import javax.inject.Inject
 class MovieUseCaseImpl @Inject constructor(
     private val movieRepository: MovieRepository,
 ) : MovieUseCase {
-    override suspend fun getPopularMovie(page: Int?): MovieListModel {
+    override suspend fun getPopularMovie(page: Int): MovieListModel {
         return movieRepository.getPopularMovie(page)
     }
 }

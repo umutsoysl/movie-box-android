@@ -1,6 +1,7 @@
 package com.umut.soysal.mobile.moviebox.data.remote.repository
 
 import com.umut.soysal.mobile.moviebox.core.di.IoDispatcher
+import com.umut.soysal.mobile.moviebox.data.remote.model.MovieListModel
 import com.umut.soysal.mobile.moviebox.data.remote.service.MovieRemoteDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -11,7 +12,7 @@ class MovieRepositoryImp @Inject constructor(
     private val movieDataSource: MovieRemoteDataSource
 ) : MovieRepository {
 
-    override suspend fun getPopularMovie(page: Int) = withContext(ioDispatcher) {
-        movieDataSource.getPopularMovie(page = page)
+    override suspend fun getPopularMovie(page: Int): MovieListModel {
+        return movieDataSource.getPopularMovie(page = page)
     }
 }
