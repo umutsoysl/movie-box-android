@@ -7,5 +7,5 @@ class MovieRemoteDataSource @Inject constructor(
     private val movieService: MovieService
 ) {
     suspend fun getPopularMovie(page: Int): MovieListModel =
-        movieService.getPopularMovie(page)
+            movieService.getPopularMovie(page)
 }

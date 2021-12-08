@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class MovieListModel (
     val page: Long? = 0,
-    val results: ArrayList<MovieModel>? = arrayListOf(),
+    val results: List<MovieModel>? = arrayListOf(),
 
     @Json(name = "total_pages")
     val totalPages: Long? = 0,
@@ -17,13 +17,13 @@ data class MovieListModel (
 
 @JsonClass(generateAdapter = true)
 data class MovieModel(
+    @Json(name = "adult")
     val adult: Boolean = false,
-    var isMovie: Boolean = true,
     @Json(name = "backdrop_path")
     val backdropPath: String? = null,
 
     @Json(name = "genre_ids")
-    val genreIDS: ArrayList<Long>? = arrayListOf(),
+    val genreIDS: List<Long>? = arrayListOf(),
     val genres: List<Genre>? = arrayListOf(),
     val budget: Long? = 0,
     val id: Long? = 0,
@@ -64,7 +64,5 @@ data class MovieModel(
 @JsonClass(generateAdapter = true)
 data class Genre (
     val id: Long,
-    val name: String,
-    var isMovie: Boolean = true,
-    var isSelect: Boolean = false
+    val name: String
 )

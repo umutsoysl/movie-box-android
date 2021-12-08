@@ -104,4 +104,5 @@ dependencies {
 
     //3rd
     implementation "com.airbnb.android:lottie-compose:$lottie_version"
+    implementation "io.coil-kt:coil-compose:$coil_version"
 }

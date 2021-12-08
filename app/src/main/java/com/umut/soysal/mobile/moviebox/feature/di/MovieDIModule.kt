@@ -17,12 +17,12 @@ import retrofit2.Retrofit
 abstract class MovieDIModule {
     @Binds
     abstract fun provideMovieRepository(
-        marketRepositoryImp: MovieRepositoryImp
+        movieRepositoryImp: MovieRepositoryImp
     ): MovieRepository
 
     @Binds
     abstract fun provideMovieUseCase(
-        marketInformationUseCaseImpl: MovieUseCaseImpl
+        movieInformationUseCaseImpl: MovieUseCaseImpl
     ): MovieUseCase
 
     companion object {

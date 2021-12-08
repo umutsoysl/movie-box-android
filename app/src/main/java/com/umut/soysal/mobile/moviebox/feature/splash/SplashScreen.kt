@@ -18,7 +18,7 @@ import com.umut.soysal.mobile.moviebox.core.navigation.Page
 
 @Composable
 fun SplashScreen(
-    navigationController: NavController? = null
+    navController: NavController? = null
 ) {
     var text by rememberSaveable { mutableStateOf("")}
     Surface {
@@ -29,7 +29,7 @@ fun SplashScreen(
                 Column (modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally){
                     Spacer(modifier = Modifier.size(16.dp))
-                    Button(onClick = { navigationController?.navigate(Page.MovieListScreen.route)}){
+                    Button(onClick = { navController?.navigate(Page.MovieListScreen.route)}){
                         Text(text = "Movie List")
                     }
                 }

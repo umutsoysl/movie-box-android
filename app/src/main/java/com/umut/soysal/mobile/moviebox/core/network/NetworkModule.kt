@@ -2,6 +2,7 @@ package com.umut.soysal.mobile.moviebox.core.network
 
 import android.content.Context
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.umut.soysal.mobile.moviebox.core.MovieBoxApplication
 import com.umut.soysal.mobile.moviebox.core.RequestBuilder
 import com.umut.soysal.mobile.moviebox.core.constant.GlobalConstant
@@ -31,11 +32,27 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient): Retrofit {
-        return Retrofit.Builder().baseUrl(GlobalConstant.BASE_URL).client(client)
-            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().build()))
+    fun provideKotlinJsonAdapterFactory(): KotlinJsonAdapterFactory = KotlinJsonAdapterFactory()
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(client: OkHttpClient, moshiConverterFactory: MoshiConverterFactory): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(GlobalConstant.BASE_URL).client(client)
+            .addConverterFactory(moshiConverterFactory)
             .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideMoshiConverterFactory(moshi: Moshi): MoshiConverterFactory =
+        MoshiConverterFactory.create(moshi)
+
+    @Provides
+    @Singleton
+    fun provideMoshi(kotlinJsonAdapterFactory: KotlinJsonAdapterFactory): Moshi = Moshi.Builder()
+        .add(kotlinJsonAdapterFactory)
+        .build()
 
     @Provides
     @Singleton
@@ -54,7 +71,6 @@ object NetworkModule {
         return okHttpClientBuilder.build()
     }
 
-
     @Provides
     @Singleton
     fun provideInterceptor(): Interceptor {
@@ -65,14 +81,12 @@ object NetworkModule {
         }
     }
 
-
     @Provides
     @Singleton
     internal fun provideCache(context: Context): Cache {
         val httpCacheDirectory = File(context.cacheDir.absolutePath, "HttpCache")
         return Cache(httpCacheDirectory, GlobalConstant.CACHE_SIZE_BYTES)
     }
-
 
     @Provides
     @Singleton
