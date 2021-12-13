@@ -8,8 +8,8 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.test.*
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -19,24 +19,32 @@ class MovieViewModelTest {
 
     private lateinit var movieViewModel: MovieViewModel
 
+    private val testDispatcher = TestCoroutineDispatcher()
+
+    private val testScope = TestCoroutineScope(testDispatcher)
+
     @Before
-    fun setupViewModel() {
-        Dispatchers.setMain(TestCoroutineDispatcher())
+    fun setUp() {
+        Dispatchers.setMain(testDispatcher)
         movieViewModel = MovieViewModel(mockUseCase)
     }
 
     @Test
-    fun `ResponseState check Loading`() {
-        val currentState = movieViewModel.getResponse()
-        assertThat(currentState.value is ResponseState.Loading).isTrue()
+    fun `when service call then ResponseState should return Loading`() {
+        testScope.runBlockingTest {
+            val currentState = movieViewModel.getResponse()
+            assertThat(currentState.value is ResponseState.Loading).isTrue()
+        }
     }
 
     @Test
-    fun `ResponseState check Success`() {
-        every { movieViewModel.getPopularMovie(1) }
+    fun `when service call then ResponseState should return Success`() {
+        testScope.runBlockingTest {
+            every { movieViewModel.getPopularMovie(1) }
 
-        val currentState = movieViewModel.getResponse()
-        assertThat(currentState.value is ResponseState.Success).isTrue()
+            val currentState = movieViewModel.getResponse()
+            assertThat(currentState.value is ResponseState.Success).isTrue()
+        }
     }
 
     @Test
@@ -45,6 +53,12 @@ class MovieViewModelTest {
         list.add(1)
         list.add(3)
 
-        assertThat(list.contains(1)).isFalse()
+        assertThat(list.contains(2)).isFalse()
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 }
