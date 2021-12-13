@@ -10,7 +10,7 @@ Movie Box app shows you the list of trending and popular movie
 * [OkHttp3](https://github.com/square/okhttp)
 * [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)
 * [Kotlin Flow](https://developer.android.com/kotlin/flow)
-* [Dagger Hilt](https://dagger.dev/hilt/) - Easy implementation and less boilerplate code than Dagger2
-* [Jetpack Components](https://developer.android.com/jetpack) - Compose, ViewModel and more
+* [Dagger Hilt](https://dagger.dev/hilt/)
+* [Jetpack Components](https://developer.android.com/jetpack)
 * [ktlint](https://ktlint.github.io/)
-* [Truth](https://truth.dev/) & [Mockk](https://mockk.io/) - Unit Tests
+* [Truth](https://truth.dev/) & [Mockk](https://mockk.io/)
