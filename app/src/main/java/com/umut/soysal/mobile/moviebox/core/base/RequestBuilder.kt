@@ -1,6 +1,7 @@
-package com.umut.soysal.mobile.moviebox.core
+package com.umut.soysal.mobile.moviebox.core.base
 
 import com.umut.soysal.mobile.moviebox.core.constant.GlobalConstant
+import com.umut.soysal.mobile.moviebox.core.error.ErrorScreen
 import okhttp3.HttpUrl
 import okhttp3.Request
 

@@ -2,6 +2,7 @@ package com.umut.soysal.mobile.moviebox.data.remote.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import com.umut.soysal.mobile.moviebox.core.base.BaseResponse
 
 @JsonClass(generateAdapter = true)
 data class MovieListModel (
@@ -13,7 +14,7 @@ data class MovieListModel (
 
     @Json(name = "total_results")
     val totalResults: Long? = 0
-)
+): BaseResponse()
 
 @JsonClass(generateAdapter = true)
 data class MovieModel(
@@ -59,10 +60,10 @@ data class MovieModel(
 
     @Json(name = "vote_count")
     val voteCount: Long? = 0
-)
+): BaseResponse()
 
 @JsonClass(generateAdapter = true)
 data class Genre (
     val id: Long,
     val name: String
-)
+): BaseResponse()

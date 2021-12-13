@@ -3,9 +3,10 @@ package com.umut.soysal.mobile.moviebox.core.network
 import android.content.Context
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.umut.soysal.mobile.moviebox.core.MovieBoxApplication
-import com.umut.soysal.mobile.moviebox.core.RequestBuilder
+import com.umut.soysal.mobile.moviebox.core.base.MovieBoxApplication
+import com.umut.soysal.mobile.moviebox.core.base.RequestBuilder
 import com.umut.soysal.mobile.moviebox.core.constant.GlobalConstant
+import com.umut.soysal.mobile.moviebox.core.helper.SystemNetworkHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -73,12 +74,21 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideInterceptor(): Interceptor {
+    fun provideInterceptor(isNetworkConnection: Boolean): Interceptor {
         return Interceptor {chain->
             val original = chain.request()
             val request = RequestBuilder.build(original)
+            if(!isNetworkConnection) {
+               throw Exception("Check Network Connection")
+            }
             chain.proceed(request)
         }
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideIsNetworkConnection(application: MovieBoxApplication): Boolean {
+        return SystemNetworkHelper.isNetworkConnection(application)
     }
 
     @Provides

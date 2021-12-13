@@ -1,7 +1,6 @@
 package com.umut.soysal.mobile.moviebox.data.remote.usecase
 
 import com.umut.soysal.mobile.moviebox.core.di.IoDispatcher
-import com.umut.soysal.mobile.moviebox.data.remote.model.MovieListModel
 import com.umut.soysal.mobile.moviebox.data.remote.repository.MovieRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

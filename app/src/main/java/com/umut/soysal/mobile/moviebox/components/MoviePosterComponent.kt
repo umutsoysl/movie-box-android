@@ -42,7 +42,7 @@ fun MoviePosterComponent(movie: MovieModel) {
         ) {
             val painter = rememberImagePainter(data = "${GlobalConstant.SERVER_IMAGE_URL}${movie.posterPath}",
              builder = {
-                 placeholder(R.drawable.image_place_holder)
+                 placeholder(R.drawable.ic_baseline_image_search_24)
              })
             Box{
                 Image(

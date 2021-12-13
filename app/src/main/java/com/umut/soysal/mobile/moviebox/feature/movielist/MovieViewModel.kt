@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umut.soysal.mobile.moviebox.core.base.BaseViewModel
 import com.umut.soysal.mobile.moviebox.core.ui.state.ResponseState
 import com.umut.soysal.mobile.moviebox.data.remote.model.MovieListModel
 import com.umut.soysal.mobile.moviebox.data.remote.model.MovieModel
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieViewModel @Inject constructor(
     private val movieUseCase: MovieUseCase
-): ViewModel() {
+): BaseViewModel() {
 
     private val responseState = mutableStateOf<ResponseState<MovieListModel>>(ResponseState.Loading)
 
@@ -35,7 +36,6 @@ class MovieViewModel @Inject constructor(
                 )
                 pageStateFlow.value += 1
             } catch (e: Exception) {
-                throw e
                 responseState.value = ResponseState.Error(e.message!!)
             }
         }
