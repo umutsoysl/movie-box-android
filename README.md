@@ -14,3 +14,6 @@ Movie Box app shows you the list of trending and popular movie
 * [Jetpack Components](https://developer.android.com/jetpack)
 * [ktlint](https://ktlint.github.io/)
 * [Truth](https://truth.dev/) & [Mockk](https://mockk.io/)
+
+## Screenshots 📷
+<img src="/assets/demo.png" width="270">
