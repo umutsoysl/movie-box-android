@@ -2,7 +2,6 @@ package com.umut.soysal.mobile.moviebox.feature.movielist
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umut.soysal.mobile.moviebox.core.base.BaseViewModel
 import com.umut.soysal.mobile.moviebox.core.ui.state.ResponseState

@@ -74,21 +74,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideInterceptor(isNetworkConnection: Boolean): Interceptor {
+    fun provideInterceptor(): Interceptor {
         return Interceptor {chain->
             val original = chain.request()
             val request = RequestBuilder.build(original)
-            if(!isNetworkConnection) {
-               throw Exception("Check Network Connection")
-            }
             chain.proceed(request)
         }
     }
 
     @Provides
     @Singleton
-    internal fun provideIsNetworkConnection(application: MovieBoxApplication): Boolean {
-        return SystemNetworkHelper.isNetworkConnection(application)
+    internal fun provideIsNetworkAvailable(@ApplicationContext context: Context): Boolean {
+        return SystemNetworkHelper.isNetworkConnection(context)
     }
 
     @Provides

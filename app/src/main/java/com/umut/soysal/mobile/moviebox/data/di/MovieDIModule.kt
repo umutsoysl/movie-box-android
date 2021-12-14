@@ -1,4 +1,4 @@
-package com.umut.soysal.mobile.moviebox.feature.di
+package com.umut.soysal.mobile.moviebox.data.di
 
 import com.umut.soysal.mobile.moviebox.data.remote.repository.MovieRepository
 import com.umut.soysal.mobile.moviebox.data.remote.repository.MovieRepositoryImp

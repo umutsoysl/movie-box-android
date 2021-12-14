@@ -8,12 +8,11 @@ import kotlinx.coroutines.cancel
 
 abstract class BaseViewModel: ViewModel() {
 
-    val job = Job()
-    val coroutineScope = CoroutineScope(Dispatchers.IO + job)
+    private val job = Job()
+    private val coroutineScope = CoroutineScope(Dispatchers.IO + job)
 
     override fun onCleared() {
         super.onCleared()
         coroutineScope.cancel()
     }
-
 }
