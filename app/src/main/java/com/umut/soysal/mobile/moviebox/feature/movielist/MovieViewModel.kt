@@ -18,25 +18,27 @@ class MovieViewModel @Inject constructor(
     private val movieUseCase: MovieUseCase
 ): BaseViewModel() {
 
-    private val responseState = mutableStateOf<ResponseState<MovieListModel>>(ResponseState.Loading)
-
-    fun getResponse(): State<ResponseState<MovieListModel>> = responseState
-
     val pageStateFlow = MutableStateFlow(1)
+
+    val loadingVisible = MutableStateFlow(false)
+
+    val errorMessage = MutableStateFlow("")
 
     val movieList: State<MutableList<MovieModel>> = mutableStateOf(mutableListOf())
 
     fun getPopularMovie(page: Int = pageStateFlow.value) {
-        responseState.value = ResponseState.Loading
         viewModelScope.launch {
-            try {
-                responseState.value = ResponseState.Success(
-                    movieUseCase.getPopularMovie(page)
-                )
-                pageStateFlow.value += 1
-            } catch (e: Exception) {
-                responseState.value = ResponseState.Error(e.message!!)
+            loadingVisible.value = true
+            when(val response = movieUseCase.getPopularMovie(page)) {
+                is ResponseState.Error -> errorMessage.value = response.message
+                is ResponseState.Success -> successMovieList(response.data)
+                else -> loadingVisible.value = false
             }
         }
+    }
+
+    private fun successMovieList(movieListModel: MovieListModel) {
+        pageStateFlow.value += 1
+        movieList.value.addAll(movieListModel.results!!)
     }
 }

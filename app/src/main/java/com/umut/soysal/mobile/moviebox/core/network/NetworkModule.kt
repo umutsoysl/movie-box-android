@@ -58,15 +58,13 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        headerInterceptor: Interceptor,
-        cache: Cache
+        headerInterceptor: Interceptor
     ): OkHttpClient {
 
         val okHttpClientBuilder = OkHttpClient().newBuilder()
         okHttpClientBuilder.connectTimeout(GlobalConstant.CONNECTION_TIMEOUT.toLong(), TimeUnit.SECONDS)
         okHttpClientBuilder.readTimeout(GlobalConstant.READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
         okHttpClientBuilder.writeTimeout(GlobalConstant.WRITE_TIMEOUT.toLong(), TimeUnit.SECONDS)
-        okHttpClientBuilder.cache(cache)
         okHttpClientBuilder.addInterceptor(headerInterceptor)
 
         return okHttpClientBuilder.build()

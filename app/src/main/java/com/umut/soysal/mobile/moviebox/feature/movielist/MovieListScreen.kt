@@ -18,21 +18,16 @@ import com.umut.soysal.mobile.moviebox.data.remote.model.MovieModel
 @ExperimentalFoundationApi
 @Composable
 fun MovieListScreen(navController: NavController? = null, movieViewModel: MovieViewModel = hiltViewModel()) {
-    val responseState by movieViewModel.getResponse()
     MovieList(movieViewModel)
-
-    when(responseState) {
-        is ResponseState.Success -> {
-            movieViewModel.movieList.value.addAll((responseState as ResponseState.Success).data.results!!)
-        }
-        is ResponseState.Loading -> {
-            LoadingScreen()
-        }
-        is ResponseState.Error -> {
-            ErrorScreen(message = (responseState as ResponseState.Error).message)
-        }
+    
+    if(movieViewModel.loadingVisible.value) {
+        LoadingScreen()
     }
-
+    
+    if(!movieViewModel.errorMessage.value.isNullOrEmpty()) {
+        ErrorScreen(message = movieViewModel.errorMessage.value)
+    }
+    
     LaunchedEffect(Unit) {
         movieViewModel.getPopularMovie()
     }
