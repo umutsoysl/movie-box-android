@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.umut.soysal.mobile.moviebox.core.ui.state.ResponseState
 import com.umut.soysal.mobile.moviebox.data.remote.usecase.MovieUseCase
 import com.umut.soysal.mobile.moviebox.feature.movielist.MovieViewModel
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -21,8 +22,6 @@ class MovieViewModelTest {
 
     private val testDispatcher = TestCoroutineDispatcher()
 
-    private val testScope = TestCoroutineScope(testDispatcher)
-
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
@@ -30,21 +29,13 @@ class MovieViewModelTest {
     }
 
     @Test
-    fun `when service call then ResponseState should return Loading`() {
-        testScope.runBlockingTest {
-            val currentState = movieViewModel.getResponse()
-            assertThat(currentState.value is ResponseState.Loading).isTrue()
-        }
-    }
+    fun `Get Popular Movie List From UseCase return Success`() = runBlockingTest {
+        coEvery {
+            mockUseCase.getPopularMovie(1)
+        } returns (MovieListMockkModel.getMockResponseStateMovieListResponse())
 
-    @Test
-    fun `when service call then ResponseState should return Success`() {
-        testScope.runBlockingTest {
-            every { movieViewModel.getPopularMovie(1) }
-
-            val currentState = movieViewModel.getResponse()
-            assertThat(currentState.value is ResponseState.Success).isTrue()
-        }
+        movieViewModel.getPopularMovie(1)
+        assertThat(movieViewModel.movieList.value.isNullOrEmpty()).isFalse()
     }
 
     @Test

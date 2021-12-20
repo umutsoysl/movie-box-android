@@ -1,5 +1,6 @@
 package com.umut.soysal.mobile.moviebox
 
+import com.umut.soysal.mobile.moviebox.core.ui.state.ResponseState
 import com.umut.soysal.mobile.moviebox.data.remote.model.Genre
 import com.umut.soysal.mobile.moviebox.data.remote.model.MovieListModel
 import com.umut.soysal.mobile.moviebox.data.remote.model.MovieModel
@@ -12,6 +13,13 @@ object MovieListMockkModel {
         totalPages = 10,
         totalResults = 20
     )
+
+    fun getMockResponseStateMovieListResponse() = ResponseState.Success(MovieListModel(
+        page = 1,
+        results = listOf(getMockMovieModel()),
+        totalPages = 10,
+        totalResults = 20
+    ))
 
     private fun getMockMovieModel() = MovieModel(
         id = 1,

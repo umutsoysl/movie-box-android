@@ -13,19 +13,20 @@ import com.umut.soysal.mobile.moviebox.core.error.ErrorScreen
 import com.umut.soysal.mobile.moviebox.core.extensions.paging
 import com.umut.soysal.mobile.moviebox.core.loading.LoadingScreen
 import com.umut.soysal.mobile.moviebox.core.ui.state.ResponseState
+import com.umut.soysal.mobile.moviebox.data.remote.model.MovieListModel
 import com.umut.soysal.mobile.moviebox.data.remote.model.MovieModel
 
 @ExperimentalFoundationApi
 @Composable
 fun MovieListScreen(navController: NavController? = null, movieViewModel: MovieViewModel = hiltViewModel()) {
-    MovieList(movieViewModel)
+    val responseState by movieViewModel.callBackStateFlow
+
+    MovieList(movieViewModel = movieViewModel)
     
-    if(movieViewModel.loadingVisible.value) {
-        LoadingScreen()
-    }
-    
-    if(!movieViewModel.errorMessage.value.isNullOrEmpty()) {
-        ErrorScreen(message = movieViewModel.errorMessage.value)
+    when(responseState) {
+        is ResponseState.Loading -> LoadingScreen()
+        is ResponseState.Success -> movieViewModel.movieList.value.addAll(((responseState as ResponseState.Success).data as MovieListModel).results!!)
+        is ResponseState.Error -> ErrorScreen(message = (responseState as ResponseState.Error).message)
     }
     
     LaunchedEffect(Unit) {
@@ -44,7 +45,7 @@ private fun MovieList(movieViewModel: MovieViewModel) {
             items = movieViewModel.movieList.value as List<MovieModel>,
             currentIndexFlow = movieViewModel.pageStateFlow,
             pageSize = movieViewModel.movieList.value.size,
-            fetch = {movieViewModel.getPopularMovie()}
+            fetch = {}
         ) {
             MoviePosterComponent(movie = it)
         }

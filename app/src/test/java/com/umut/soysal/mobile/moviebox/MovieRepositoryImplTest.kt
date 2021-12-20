@@ -1,6 +1,9 @@
 package com.umut.soysal.mobile.moviebox
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth
+import com.umut.soysal.mobile.moviebox.core.ui.state.ResponseState
 import com.umut.soysal.mobile.moviebox.data.remote.model.MovieListModel
 import com.umut.soysal.mobile.moviebox.data.remote.repository.MovieRepositoryImp
 import com.umut.soysal.mobile.moviebox.data.remote.service.MovieRemoteDataSource
@@ -21,6 +24,8 @@ class MovieRepositoryImplTest {
 
     private val testDispatcher = TestCoroutineDispatcher()
 
+    private val context = ApplicationProvider.getApplicationContext<Context>()
+
     private val testScope = TestCoroutineScope(testDispatcher)
 
     @RelaxedMockK
@@ -31,7 +36,7 @@ class MovieRepositoryImplTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        repositoryImpl = MovieRepositoryImp(testDispatcher, mockkDataSource)
+        repositoryImpl = MovieRepositoryImp(testDispatcher, context, mockkDataSource)
     }
 
     @Test
@@ -41,7 +46,7 @@ class MovieRepositoryImplTest {
             val movieMockResponse = MovieListMockkModel.getMockMovieListResponse()
             coEvery {
                 mockkDataSource.getPopularMovie(1)
-            } returns MovieListMockkModel.getMockMovieListResponse()
+            } returns movieMockResponse
 
             //when
             val callServiceResponse = repositoryImpl.getPopularMovie(1)
@@ -61,7 +66,7 @@ class MovieRepositoryImplTest {
             } throws throwable
 
             //when
-            var callServiceResponse: MovieListModel? = null
+            var callServiceResponse: ResponseState<MovieListModel>? = null
             try {
                 callServiceResponse = repositoryImpl.getPopularMovie(10000)
             } catch (ex: Exception) {

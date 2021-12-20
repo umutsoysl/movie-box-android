@@ -36,7 +36,7 @@ class MovieUseCaseImplTest {
     @ExperimentalCoroutinesApi
     fun `when useCase getPopularMovie() service call then should return Success response`() = testScope.runBlockingTest {
         //given
-        val mockMovieResponse = MovieListMockkModel.getMockMovieListResponse()
+        val mockMovieResponse = MovieListMockkModel.getMockResponseStateMovieListResponse()
 
         coEvery {
             repository.getPopularMovie(1)
